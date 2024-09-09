@@ -54,14 +54,41 @@ public class TinhToanDonGian extends JFrame {
         add(p2, BorderLayout.SOUTH);
         // xu ly cong
         btCong.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+               public void actionPerformed(ActionEvent e) {
                 double x = Double.parseDouble(txtSo1.getText());
                 double y = Double.parseDouble(txtSo2.getText());
                 double kq = x + y;
                 txtKetqua.setText(String.valueOf(kq));
-            }
-        )};
-        }
+            } 
+        });
+        
+        btTru.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                double x = Double.parseDouble(txtSo1.getText());
+                double y = Double.parseDouble(txtSo2.getText());
+                double kq = x - y;
+                txtKetqua.setText(String.valueOf(kq));
+            } 
+        });
+        
+        btNhan.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                double x = Double.parseDouble(txtSo1.getText());
+                double y = Double.parseDouble(txtSo2.getText());
+                double kq = x * y;
+                txtKetqua.setText(String.valueOf(kq));
+            } 
+        });
+        
+        btChia.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                double x = Double.parseDouble(txtSo1.getText());
+                double y = Double.parseDouble(txtSo2.getText());
+                double kq = x / y;
+                txtKetqua.setText(String.valueOf(kq));
+            } 
+        });
+    }
             public static void main(String[] args) {
         TinhToanDonGian frm = new TinhToanDonGian();
         frm.setVisible(true);
