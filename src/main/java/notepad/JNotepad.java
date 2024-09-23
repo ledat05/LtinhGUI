@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 public class JNotepad extends JFrame {
@@ -26,6 +28,11 @@ public class JNotepad extends JFrame {
     private JMenuItem itemZoomin, itemZoomOut, itemRestoredefaultzoom;
 
     private JTextArea txtEditor;
+    
+    private JToolBar toolBar;
+    private JButton btNew,btOpen,btSave;
+    
+    private JFontDialog fontDlg;
 
     public JNotepad(String title) {
         super(title);
@@ -102,7 +109,7 @@ public class JNotepad extends JFrame {
         itemZoom.add(itemZoomOut = new JMenuItem("Zoom Out"));
         itemZoom.add(itemRestoredefaultzoom = new JMenuItem("Restore Default Zoom"));
         mView.add(itemStatusbar = new JCheckBoxMenuItem("Status Bar"));
-        mView.add(itemWordWrap = new JCheckBoxMenuItem("Status Bar"));
+        mView.add(itemWordWrap = new JCheckBoxMenuItem("Word Wrap"));
 
         itemZoomin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
         itemZoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK));
@@ -117,6 +124,15 @@ public class JNotepad extends JFrame {
                 if (response == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
+            }
+        });
+        
+        
+        itemFont.addActionListener((ActionEvent e) -> {
+            
+             {
+                fontDlg = new JFontDialog(this,true);
+                fontDlg.setVisible(true);
             }
         });
     }
@@ -135,4 +151,10 @@ public class JNotepad extends JFrame {
         app.setVisible(true);
         System.out.println("JNotepad đã hiển thị.");
     }
+
+    public JTextArea getTxtEditor() {
+        return txtEditor;
+    }
+
+    
 }
