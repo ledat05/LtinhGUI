@@ -1,12 +1,17 @@
 package notepad;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -37,6 +42,7 @@ public class JNotepad extends JFrame {
     public JNotepad(String title) {
         super(title);
         createMenu();
+        createtoolBar();
         processEvent();
         createGui();
         setSize(800, 600);
@@ -127,13 +133,38 @@ public class JNotepad extends JFrame {
             }
         });
         
-        
+        //xu ly su kien font
         itemFont.addActionListener((ActionEvent e) -> {
             
              {
                 fontDlg = new JFontDialog(this,true);
                 fontDlg.setVisible(true);
             }
+        });
+        //xu ly su kien word wrap
+        itemWordWrap.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(itemWordWrap.isSelected())
+                {
+                    txtEditor.setLineWrap(true);
+                }else{
+                    txtEditor.setLineWrap(false);
+                }
+            }
+        });
+        itemOpen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                OpenFile();
+            }
+
+           
+        });
+        itemSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+            }
+
+           
         });
     }
 
@@ -156,5 +187,48 @@ public class JNotepad extends JFrame {
         return txtEditor;
     }
 
-    
+    private void createtoolBar() {
+        toolBar =new JToolBar();
+        toolBar.add(btNew=new JButton("New"));
+        toolBar.add(btOpen=new JButton("Open"));
+        toolBar.add(btSave=new JButton("Save"));
+        
+        btNew.setIcon(new ImageIcon(this.getClass().getResource("/image/new.png")));
+        btOpen.setIcon(new ImageIcon(this.getClass().getResource("/image/open.png")));
+        btSave.setIcon(new ImageIcon(this.getClass().getResource("/image/save.png")));
+        
+        add(toolBar,BorderLayout.NORTH);
+    }
+
+     private void OpenFile() {
+                JFileChooser dlgFile= new JFileChooser();
+                if(dlgFile.showOpenDialog(this)==JFileChooser.APPROVE_OPTION)
+                {
+                    try{
+                        FileInputStream fis=new FileInputStream(dlgFile.getSelectedFile());
+                        byte[] b=new byte[fis.available()];
+                        
+                        fis.read(b);
+                        txtEditor.setText(new String(b));
+                    }catch(Exception ex){
+                        JOptionPane.showMessageDialog(this,"loi doc file");
+                    }
+                }
+            }
+      private void saveFile() {
+                JFileChooser dlgFile= new JFileChooser();
+                if(dlgFile.showSaveDialog(this)==JFileChooser.APPROVE_OPTION)
+                {
+                    try{
+                        FileOutputStream fos=new FileOutputStream(dlgFile.getSelectedFile());
+                        
+                        fos.write(txtEditor.getText().getBytes());
+                        
+                        fos.close();
+                    }catch(Exception ex){
+                        JOptionPane.showMessageDialog(this,"loi gi file");
+                    }
+                }
+            }
+     
 }
